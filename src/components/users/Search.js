@@ -8,7 +8,8 @@ class Search extends Component {
     static propTypes = {
         searchUsers : PropTypes.func.isRequired,
         clearUsers : PropTypes.func.isRequired,
-        showClear : PropTypes.bool.isRequired
+        showClear : PropTypes.bool.isRequired,
+        setAlert : PropTypes.func.isRequired
     }
 
     onChange =  (e)=>{
@@ -16,13 +17,16 @@ class Search extends Component {
     }
     onSubmit(e){                 //if we use regular method then we need to bind the function to use this
        e.preventDefault();
+       if(this.state.text===""){
+           this.props.setAlert('Please enter something','light');
+       }
+       else{
         console.log(this.state.text)
         this.props.searchUsers(this.state.text)
+       }
     }
 
-    onClear=()=>{
 
-    }
 
     render() {
         const {text,showClear,clearUsers} = this.props

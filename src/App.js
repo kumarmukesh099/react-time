@@ -4,12 +4,14 @@ import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users';
 import axios from 'axios'
 import Search from './components/users/Search';
+import Alert from './components/layout/Alert';
 
 class App extends  Component{
 
  state ={
    users: [],
-   loading:false
+   loading:false,
+   alert : null
  }
 async componentDidMount(){
 //   this.setState({loading:true})
@@ -31,13 +33,27 @@ clearUsers = ()=>{
   console.log("userssss",this.state.users.length)
 }
 
+//show alert if search is empty
+setAlert=(msg,type)=>{
+  this.setState({alert :{msg : msg,type:type}})
+
+setTimeout(()=>{
+  this.setState({alert:null})
+},1000)
+}
+
   render(){
      return(
       <div className="App">
         <Navbar />
+        <Alert alert={this.state.alert} />
         <div className="container">
-        <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} 
-        showClear={this.state.users.length > 0 ? true : false}/>
+        <Search searchUsers={this.searchUsers} 
+        clearUsers={this.clearUsers} 
+        showClear={this.state.users.length > 0 ? true : false}
+        setAlert = {this.setAlert}
+        />
+
         <Users loading={this.state.loading} users={this.state.users}/>
         </div> 
       </div>
@@ -48,3 +64,6 @@ clearUsers = ()=>{
   
 
 export default App;
+
+
+
