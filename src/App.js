@@ -3,6 +3,7 @@ import './App.css';
 import {BrowserRouter as Router ,  Switch,Route} from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users';
+import User from './components/users/User';
 import axios from 'axios'
 import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
@@ -12,6 +13,7 @@ class App extends  Component{
 
  state ={
    users: [],
+   user :{},
    loading:false,
    alert : null
  }
@@ -26,8 +28,17 @@ searchUsers= async(text)=>{
   this.setState({loading:true})
   let response = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
   this.setState({users:response.data.items , loading:false})
-  console.log(this.state.users.length)
 }
+
+//Get a single Github User
+getUser = async(username)=>{
+  this.setState({loading:true})
+  let response = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
+  this.setState({user:response.data , loading:false})
+  console.log(username,response.data)
+}
+
+
 
 //clear Search Users
 clearUsers = ()=>{
@@ -45,25 +56,29 @@ setTimeout(()=>{
 }
 
   render(){
+    const {alert,users,user,loading} = this.state
      return(
        <Router>
       <div className="App">
         <Navbar />
          <div className="container">
-        <Alert alert={this.state.alert} />
+        <Alert alert={alert} />
         <Switch>
           <Route exact path='/' render ={(props)=>
             <Fragment>
               <Search searchUsers={this.searchUsers} 
               clearUsers={this.clearUsers} 
-              showClear={this.state.users.length > 0 ? true : false}
+              showClear={users.length > 0 ? true : false}
                setAlert = {this.setAlert}
                />
-              <Users loading={this.state.loading} users={this.state.users}/>
+              <Users loading={loading} users={users}/>
               </Fragment>
      }
             />
           <Route exact path="/about" component={About}/>
+          <Route exact path="/user/:login" render={(props)=>(
+           <User {...props} getUser={this.getUser} user={user} loading={loading}/>
+          )} />
         </Switch>
         </div> 
       </div>
