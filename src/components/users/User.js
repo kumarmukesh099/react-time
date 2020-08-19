@@ -1,17 +1,21 @@
 import React, { Component, Fragment } from 'react'
 import Spinner from '../layout/Spinner'
 import PropTypes from 'prop-types'
+import Repos from '../repos/Repos'
 import {Link} from 'react-router-dom'
 
 class User extends Component {
 componentDidMount(){
     this.props.getUser(this.props.match.params.login)
-    console.log(this.props)
+    this.props.getUserRepos(this.props.match.params.login)
+
 }
 static propTypes = {
     loading : PropTypes.bool,
     user : PropTypes.object.isRequired,
-    getUser : PropTypes.func.isRequired
+    getUser : PropTypes.func.isRequired,
+    repos : PropTypes.array.isRequired,
+    getUserRepos : PropTypes.func.isRequired
 }
     render() {
         const {
@@ -30,13 +34,13 @@ static propTypes = {
             public_gists,
              hireable
         } = this.props.user
-        const {loading} = this.props;
+        const {loading,repos} = this.props;
         if(loading) return <Spinner />
         else {
 
         }
         return <Fragment>
-            <Link to="/" className="btn btn-light" style={{position: "fixed",left: "45%" , border:"1px solid green"}}>Back To Search</Link>
+            <Link to="/" className="btn btn-light" style={{position: "absolute",left: "45%" , border:"1px solid green"}}>Back To Search</Link>
             Hireable : {hireable ? <b>Yes</b> : <b>No</b> }
             <div className="card">
             <div className="all-center">
@@ -76,6 +80,7 @@ static propTypes = {
                 <div className="badge badge-primary">Public_gists : {public_gists} </div>
 
             </div>
+            <Repos repos={repos}/>
         </Fragment>
                 
     }
