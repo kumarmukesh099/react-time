@@ -1,23 +1,16 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useEffect} from 'react'
 import Spinner from '../layout/Spinner'
 import PropTypes from 'prop-types'
 import Repos from '../repos/Repos'
 import {Link} from 'react-router-dom'
 
-class User extends Component {
-componentDidMount(){
-    this.props.getUser(this.props.match.params.login)
-    this.props.getUserRepos(this.props.match.params.login)
+const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
 
-}
-static propTypes = {
-    loading : PropTypes.bool,
-    user : PropTypes.object.isRequired,
-    getUser : PropTypes.func.isRequired,
-    repos : PropTypes.array.isRequired,
-    getUserRepos : PropTypes.func.isRequired
-}
-    render() {
+    useEffect(()=>{
+        getUser(match.params.login)
+        getUserRepos(match.params.login)        
+        // eslint-disable-next-line                
+    },[getUser,getUserRepos,match.params.login]) //we add eslint-disable-next-line in upper line and that is working now and if not then we add dependecny here here dependency otherwise it will show dependency error 
         const {
             name,
             avatar_url,
@@ -33,8 +26,8 @@ static propTypes = {
             public_repos,
             public_gists,
              hireable
-        } = this.props.user
-        const {loading,repos} = this.props;
+        } = user
+
         if(loading) return <Spinner />
         else {
 
@@ -83,7 +76,15 @@ static propTypes = {
             <Repos repos={repos}/>
         </Fragment>
                 
-    }
+    
+}
+
+User.propTypes = {
+    loading : PropTypes.bool,
+    user : PropTypes.object.isRequired,
+    getUser : PropTypes.func.isRequired,
+    repos : PropTypes.array.isRequired,
+    getUserRepos : PropTypes.func.isRequired
 }
 
 export default User
