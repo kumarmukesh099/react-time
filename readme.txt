@@ -27,3 +27,5 @@ onSubmit={this.onSubmit.bind(this)}>
 
 
 userEffect hook is the replacement of componentDIdMount in functional component
+
+methods use in class and function use in function

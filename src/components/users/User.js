@@ -10,7 +10,7 @@ const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
         getUser(match.params.login)
         getUserRepos(match.params.login)        
         // eslint-disable-next-line                
-    },[getUser,getUserRepos,match.params.login]) //we add eslint-disable-next-line in upper line and that is working now and if not then we add dependecny here here dependency otherwise it will show dependency error 
+    },[]) //we add eslint-disable-next-line in upper line and that is working now and if not then we add dependecny here here dependency otherwise it will show dependency error 
         const {
             name,
             avatar_url,
