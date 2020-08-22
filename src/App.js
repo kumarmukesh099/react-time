@@ -9,6 +9,8 @@ import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
 import { About } from './components/pages/About';
 
+import GithubState from './context/github/GithubState'
+
 const App =()=>{
 
 const [users,setUsers] = useState([]);
@@ -66,6 +68,7 @@ setTimeout(()=>{
 }
 
      return(
+       <GithubState>
        <Router>
       <div className="App">
         <Navbar />
@@ -95,6 +98,7 @@ setTimeout(()=>{
         </div> 
       </div>
       </Router>
+      </GithubState>
     );
   
 }
