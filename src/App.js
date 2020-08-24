@@ -26,13 +26,7 @@ const [alert,setAlert] = useState(null);
 //  this.setState({users:response.data , loading:false})
 //}
 
-//search github users
-const searchUsers= async(text)=>{
-  setLoading(true)
-  let response = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
-  setUsers(response.data.items);
-  setLoading(false);
-}
+
 
 //Get a single Github User
 const getUser = async(username)=>{
@@ -77,7 +71,7 @@ setTimeout(()=>{
         <Switch>
           <Route exact path='/' render ={(props)=>
             <Fragment>
-              <Search searchUsers={searchUsers} 
+              <Search  
               clearUsers={clearUsers} 
               showClear={users.length > 0 ? true : false}
                setAlert = {showAlert}

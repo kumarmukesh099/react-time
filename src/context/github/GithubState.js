@@ -21,7 +21,15 @@
 
     const [state , dispatch] = useReducer(GithubReducer,initialState)
 
-    //Search Users
+    //Search github Users
+    const searchUsers= async(text)=>{
+    setLoading();
+    let response = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
+    dispatch({
+        type: SEARCH_USERS,
+        payload : response.data.items
+    })
+  }
 
     //Get User
 
@@ -31,6 +39,8 @@
 
     //Set Loading
 
+    const setLoading =()=> dispatch({type: SET_LOADING});
+
 
     //GithubContext.Provider make the value available for the entire app
     return <GithubContext.Provider
@@ -38,7 +48,8 @@
             users : state.users,
             user : state.user,
             repos : state.repos,
-            loading: state.loading
+            loading: state.loading,
+            searchUsers
         }} >
     {props.children}                        
     </GithubContext.Provider>       //props.children because we want to wrap our entire application with this context
