@@ -1,13 +1,16 @@
-import React, { Fragment, useEffect} from 'react'
+import React, { Fragment, useContext ,  useEffect} from 'react'
 import Spinner from '../layout/Spinner'
 import PropTypes from 'prop-types'
 import Repos from '../repos/Repos'
 import {Link} from 'react-router-dom'
+import GithubContext from '../../context/github/githubContext';
 
 const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
+    const githubContext = useContext(GithubContext);
+    console.log("getuserdata",githubContext)
 
     useEffect(()=>{
-        getUser(match.params.login)
+        githubContext.getUser(match.params.login)
         getUserRepos(match.params.login)        
         // eslint-disable-next-line                
     },[]) //we add eslint-disable-next-line in upper line and that is working now and if not then we add dependecny here here dependency otherwise it will show dependency error 
@@ -26,7 +29,7 @@ const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
             public_repos,
             public_gists,
              hireable
-        } = user
+        } = githubContext.user
 
         if(loading) return <Spinner />
         else {
@@ -80,9 +83,6 @@ const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
 }
 
 User.propTypes = {
-    loading : PropTypes.bool,
-    user : PropTypes.object.isRequired,
-    getUser : PropTypes.func.isRequired,
     repos : PropTypes.array.isRequired,
     getUserRepos : PropTypes.func.isRequired
 }
