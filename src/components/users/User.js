@@ -5,13 +5,13 @@ import Repos from '../repos/Repos'
 import {Link} from 'react-router-dom'
 import GithubContext from '../../context/github/githubContext';
 
-const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
+const User = ({match})=>{
     const githubContext = useContext(GithubContext);
-    console.log("getuserdata",githubContext)
+    console.log("getuserdata==========>",githubContext,match)
 
     useEffect(()=>{
         githubContext.getUser(match.params.login)
-        getUserRepos(match.params.login)        
+        githubContext.getUserRepos(match.params.login)        
         // eslint-disable-next-line                
     },[]) //we add eslint-disable-next-line in upper line and that is working now and if not then we add dependecny here here dependency otherwise it will show dependency error 
         const {
@@ -31,7 +31,7 @@ const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
              hireable
         } = githubContext.user
 
-        if(loading) return <Spinner />
+        if(githubContext.loading) return <Spinner />
         else {
 
         }
@@ -76,7 +76,7 @@ const User = ({user,loading,repos,getUser,getUserRepos,match})=>{
                 <div className="badge badge-primary">Public_gists : {public_gists} </div>
 
             </div>
-            <Repos repos={repos}/>
+            <Repos repos={githubContext.repos}/>
         </Fragment>
                 
     

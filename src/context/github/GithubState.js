@@ -42,6 +42,13 @@
     }
 
     //Get Repos
+    const getUserRepos = async(username)=>{
+    let response = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
+    dispatch({
+        type : GET_REPOS,
+        payload : response.data
+    })
+     }
     
 
     //Clear Users
@@ -61,7 +68,8 @@
             searchUsers,
             clearUsers,
             setLoading,
-            getUser   
+            getUser,
+            getUserRepos  
         }} >
     {props.children}                        
     </GithubContext.Provider>       //props.children because we want to wrap our entire application with this context

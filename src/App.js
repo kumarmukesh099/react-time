@@ -4,7 +4,6 @@ import {BrowserRouter as Router ,  Switch,Route} from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users';
 import User from './components/users/User';
-import axios from 'axios'
 import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
 import { About } from './components/pages/About';
@@ -15,7 +14,7 @@ const App =()=>{
 
 //const [users,setUsers] = useState([]);    moving it to githubState
 //const [user,setUser] = useState({});
-const [repos,setRepos] = useState([]);
+//const [repos,setRepos] = useState([]);
 //const [loading,setLoading] = useState(false);
 const [alert,setAlert] = useState(null);
 //we used to initialise the value by using useState from React
@@ -38,11 +37,11 @@ const [alert,setAlert] = useState(null);
 // }
 ////and use setnameofthingusedabove() to set the value
 
-//Get a single Github User Repos
-const getUserRepos = async(username)=>{
-    let response = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
-    setRepos(response.data);
-  }
+// //Get a single Github User Repos       //moed it to GithubState
+// const getUserRepos = async(username)=>{
+//     let response = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_Client_ID}&client_secret=${process.env.REACT_APP_GITHUB_Client_SECRET}`);
+//     setRepos(response.data);
+//   }
 
 
 //show alert if search is empty
@@ -71,12 +70,7 @@ setTimeout(()=>{
               </Fragment>
               }/>
           <Route exact path="/about" component={About}/>
-          <Route exact path="/user/:login" render={(props)=>(
-           <User {...props} 
-           getUserRepos={getUserRepos}
-            repos = {repos}
-          />
-          )} />
+          <Route exact path="/user/:login" component={User} />
         </Switch>
         </div> 
       </div>
