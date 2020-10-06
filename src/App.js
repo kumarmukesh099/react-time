@@ -1,4 +1,5 @@
-import React , {useState , Fragment} from 'react';
+//import React , {useState , Fragment} from 'react';
+import React , { Fragment} from 'react';
 import './App.css';
 import {BrowserRouter as Router ,  Switch,Route} from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
@@ -8,7 +9,9 @@ import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
 import { About } from './components/pages/About';
 
-import GithubState from './context/github/GithubState'
+import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/alertState';
+
 
 const App =()=>{
 
@@ -16,7 +19,7 @@ const App =()=>{
 //const [user,setUser] = useState({});
 //const [repos,setRepos] = useState([]);
 //const [loading,setLoading] = useState(false);
-const [alert,setAlert] = useState(null);
+//const [alert,setAlert] = useState(null);
 //we used to initialise the value by using useState from React
 
 
@@ -44,28 +47,27 @@ const [alert,setAlert] = useState(null);
 //   }
 
 
-//show alert if search is empty
-const showAlert=(msg,type)=>{
-  setAlert({msg : msg,type:type})
+// //show alert if search is empty
+// const showAlert=(msg,type)=>{
+//   setAlert({msg : msg,type:type})
 
-setTimeout(()=>{
-  setAlert(null)
-},1000)
-}
+// setTimeout(()=>{
+//   setAlert(null)
+// },1000)
+// }
 
      return(
        <GithubState>
+         <AlertState>
        <Router>
       <div className="App">
         <Navbar />
          <div className="container">
-        <Alert alert={alert} />
+        <Alert />
         <Switch>
           <Route exact path='/' render ={(props)=>
             <Fragment>
-              <Search  
-               setAlert = {showAlert}
-               />
+              <Search />
               <Users />
               </Fragment>
               }/>
@@ -75,6 +77,7 @@ setTimeout(()=>{
         </div> 
       </div>
       </Router>
+      </AlertState>
       </GithubState>
     );
   
