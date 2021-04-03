@@ -7,7 +7,7 @@ import {
 } from '../types';
 
 
-//reducaer take tow arguments state and action
+//reducer take two arguments state and action
 export default (state,action)=>{
     switch(action.type){
         case SEARCH_USERS :

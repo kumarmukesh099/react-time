@@ -29,3 +29,14 @@ onSubmit={this.onSubmit.bind(this)}>
 userEffect hook is the replacement of componentDIdMount in functional component
 
 methods use in class and function use in function
+
+
+<Route exact path="/user/:login" render={(props)=>(
+           <User {...props} 
+           getUserRepos={getUserRepos}
+            repos = {repos}
+          />
+          //used ...props to pass the props as to use in repos.js
+
+//To setup netlify
+          
